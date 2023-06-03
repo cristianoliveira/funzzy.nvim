@@ -9,7 +9,8 @@ CONTENTS                                                  *funzzy-contents*
    01. Intro ............................................... |funzzy-intro|
    02. Features ......................................... |funzzy-features|
    03. Commands ......................................... |funzzy-commands|
-   03. Examples ......................................... |funzzy-examples|
+   04. Examples ......................................... |funzzy-examples|
+   05. FAQ ................................................... |funzzy-faq|
 
 =============================================================================
 INTRODUCTION                                                 *funzzy-intro*
@@ -93,5 +94,12 @@ EXAMPLES                                                  *funzzy-examples*
     run: "webdriver"
     change: "e2e/**"
   ```
+=============================================================================
+FAQ                                                       *funzzy-faq*
+
+ - How can kill a running instance of funzzy?
+
+ This pluging spins a process using :terminal so the simplest way is
+ pressing `i` and `<C-c>` for more run `:h terminal`
 
  vim:tw=78:et:ft=help:norl:
