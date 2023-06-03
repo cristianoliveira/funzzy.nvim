@@ -1,9 +1,9 @@
 :Funzzy	funzzy.txt	/*:Funzzy*
 :FunzzyCmd	funzzy.txt	/*:FunzzyCmd*
 :FunzzyEdit	funzzy.txt	/*:FunzzyEdit*
-Arbitrary_Commands	funzzy.txt	/*Arbitrary_Commands*
-Configured_Tasks	funzzy.txt	/*Configured_Tasks*
-Target_Tasks	funzzy.txt	/*Target_Tasks*
+Arbitrary_commands	funzzy.txt	/*Arbitrary_commands*
+Configured_tasks	funzzy.txt	/*Configured_tasks*
+Targeted_tasks	funzzy.txt	/*Targeted_tasks*
 funzzy-commands	funzzy.txt	/*funzzy-commands*
 funzzy-contents	funzzy.txt	/*funzzy-contents*
 funzzy-examples	funzzy.txt	/*funzzy-examples*

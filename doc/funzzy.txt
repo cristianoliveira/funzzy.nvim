@@ -23,12 +23,11 @@ command, which then watch the current directory ( See: |funzzy-examples| )
 FEATURES                                                  *funzzy-features*
 
 - Runs a command when a file changes
-- Uses a very lightweight watcher (funzzy)
-- Can be configured by editing the .watch.yaml file or by passing an arbitrary
-  command
 - Can be used to run tests, build, lint, etc.
+- Can be configured with `.watch.yaml` file or by passing an arbitrary command
 - Runs a Non-blocking cancelable job
-- Using `{{filename}}` allows you to compose commands that uses the changed file
+- Using `{{filepath}}` allows you to compose commands that uses the changed file
+- Uses a very lightweight watcher (funzzy)
 
 =============================================================================
 COMMANDS                                                  *funzzy-commands*
@@ -68,17 +67,17 @@ COMMANDS                                                  *funzzy-commands*
 =============================================================================
 EXAMPLES                                                  *funzzy-examples*
 
- *Arbitrary_Commands* - Opens the directory/file you want work and execute the
+ *Arbitrary_commands* - Opens the directory/file you want work and execute the
  command below, this will spin a funzzy process which will watch the directory
  where the file is and will execute the command you passed as argument
 
  `:FunzzyCmd echo "this file changed {{filepath}}"`
 
- *Configured_Tasks* - First configure the task file with `:FunzzyInit` once that
+ *Configured_tasks* - First configure the task file with `:FunzzyInit` once that
  is done execute `:Funzzy` which will spin the watcher and watch based on the
  configured tasks in `.watch.yaml`
 
- *Target_Tasks* - Assuming that you have the `.watch.yaml` below if you run
+ *Targeted_tasks* - Assuming that you have the `.watch.yaml` below if you run
  the command `:Funzzy quick` it will only load the rules that contains `quick`
  in the name
  ```
@@ -86,8 +85,8 @@ EXAMPLES                                                  *funzzy-examples*
     run: "echo 'foo bar baz' | sed 's/foo/FIRST/g'"
     change: "libs/**"
 
-  - name: run fmt (quick)
-    run: "ls | sed 's/Cargo/Foo/g'"
+  - name: test the changed file (quick)
+    run: "npx jest \$(echo "{{filepath}}" | sed -r 's/\.(t|j)sx?//g')"
     change: "src/**"
 
   - name: run e2e (slow)

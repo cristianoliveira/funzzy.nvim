@@ -11,7 +11,7 @@ FEATURES                                                  *funzzy-features*
   command.
 - Can be used to run tests, build, lint, etc.
 - Runs a Non-blocking cancelable job
-- Using `{{filename}}` allows you to compose commands that uses the changed file
+- Using `{{filepath}}` allows you to compose commands that uses the changed file
 ```
 
 ## Installation
