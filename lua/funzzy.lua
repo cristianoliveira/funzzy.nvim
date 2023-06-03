@@ -56,7 +56,8 @@ M.FunzzyEdit = function(opts)
   if vim.fn.filereadable(".watch.yaml") == 0 then
     -- ask if user want to create .watch.yaml
     local create_answer = vim.fn.confirm("Funzzy: .watch.yaml was not found. Create for this directory?", "&Yes\n&No")
-    if create_answer == 2 then
+    print('create_answer', create_answer)
+    if create_answer ~= 1 then
       return
     end
 
