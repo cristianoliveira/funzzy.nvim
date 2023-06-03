@@ -24,11 +24,11 @@ command, which then watch the current directory ( See: |funzzy-examples| )
 FEATURES                                                  *funzzy-features*
 
 - Runs a command when a file changes
-- Can be used to run tests, build, lint, etc.
-- Can be configured with `.watch.yaml` file or by passing an arbitrary command
-- Runs a Non-blocking cancelable job
+- Runs non-blocking cancelable tasks
+- Can be used to run any kind of task in one config like tests, build, lint, etc.
+- Can watch the current directory recursively and run arbitrary commands
 - Using `{{filepath}}` allows you to compose commands that uses the changed file
-- Uses a very lightweight watcher (funzzy)
+- Uses a very lightweight process made with Rust
 
 =============================================================================
 COMMANDS                                                  *funzzy-commands*

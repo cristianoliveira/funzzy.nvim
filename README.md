@@ -6,12 +6,12 @@ It is a Neovim plugin that allows you to watch for changes in files and director
 FEATURES                                                  *funzzy-features*
 
 - Runs a command when a file changes
-- Uses a very lightweight watcher (funzzy)
-- Can be configured by editing the .watch.yaml file or by passing an arbitrary
-  command.
-- Can be used to run tests, build, lint, etc.
-- Runs a Non-blocking cancelable job
+- Runs non-blocking cancelable tasks
+- Can be used to run any kind of task with a single configuration file
+- Can watch the current directory recursively and run arbitrary commands
 - Using `{{filepath}}` allows you to compose commands that uses the changed file
+- Uses a very lightweight process made with Rust
+
 ```
 
 ## Installation
