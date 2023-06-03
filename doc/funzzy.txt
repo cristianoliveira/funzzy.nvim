@@ -28,8 +28,7 @@ FEATURES                                                  *funzzy-features*
   command
 - Can be used to run tests, build, lint, etc.
 - Runs a Non-blocking cancelable job
-- Using `{{filename}}` template argument run commands to directly to the changed
-file
+- Using `{{filename}}` allows you to compose commands that uses the changed file
 
 =============================================================================
 COMMANDS                                                  *funzzy-commands*
