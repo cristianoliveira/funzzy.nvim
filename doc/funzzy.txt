@@ -17,7 +17,7 @@ INTRODUCTION                                                 *funzzy-intro*
 Spins up a watcher process that runs a command when a file changes. It uses
 the funzzy the watcher https://github.com/cristianoliveira/funzzy so you can
 either configure it by editing the .watch.yaml file or by passing an arbitrary
-command, which then watch the current directory ( See: *funzzy-examples* )
+command, which then watch the current directory ( See: |funzzy-examples| )
 
 =============================================================================
 FEATURES                                                  *funzzy-features*
