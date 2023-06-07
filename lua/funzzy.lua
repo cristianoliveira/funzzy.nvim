@@ -35,6 +35,8 @@ local function open_funzzy_terminal(cmd)
   vim.fn.writefile({channel_id}, channels_storage(), "a")
 end
 
+local FUNZZY_FILE = ".watch.yaml"
+
 local M = {}
 
 -- Funzzy
@@ -76,19 +78,18 @@ M.FunzzyEdit = function(opts)
   if vim.fn.filereadable(".watch.yaml") == 0 then
     -- ask if user want to create .watch.yaml
     local create_answer = vim.fn.confirm("Funzzy: .watch.yaml was not found. Create for this directory?", "&Yes\n&No")
-    print('create_answer', create_answer)
     if create_answer ~= 1 then
       return
     end
 
-    vim.cmd("! funzzy init")
+    vim.cmd("funzzy init")
     while vim.fn.filereadable(".watch.yaml") == 0 do
       vim.cmd("sleep 1")
     end
   end
 
   open_buffer(opts)
-  vim.cmd.edit(".watch.yaml")
+  vim.cmd.edit(FUNZZY_FILE)
 end
 
 -- FunzzyClose
@@ -117,9 +118,9 @@ M.FunzzyClose = function()
 end
 
 M.init = function()
-  local session_channels = channels_storage()
-  if vim.fn.filereadable(session_channels) == 0 then
-    vim.fn.delete(channels_storage())
+  local channels = channels_storage()
+  if vim.fn.filereadable(channels) == 0 then
+    vim.fn.delete(channels)
   end
 end
 
