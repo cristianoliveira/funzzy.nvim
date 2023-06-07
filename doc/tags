@@ -1,4 +1,5 @@
 :Funzzy	funzzy.txt	/*:Funzzy*
+:FunzzyClose	funzzy.txt	/*:FunzzyClose*
 :FunzzyCmd	funzzy.txt	/*:FunzzyCmd*
 :FunzzyEdit	funzzy.txt	/*:FunzzyEdit*
 Arbitrary_commands	funzzy.txt	/*Arbitrary_commands*

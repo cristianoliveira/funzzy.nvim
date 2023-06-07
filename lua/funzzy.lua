@@ -16,7 +16,7 @@ local function open_panel(opts)
 end
 
 
-local function get_cache_file_for_current_dir()
+local function channels_storage()
   local current_pwd = vim.fn.expand('%:p:h')
   local dir = vim.fn.stdpath('cache') .. '/funzzy'
 
@@ -32,7 +32,7 @@ end
 local function open_funzzy_terminal(cmd)
   local channel_id = vim.fn.termopen(cmd)
 
-  local channels = get_cache_file_for_current_dir()
+  local channels = channels_storage()
 
   vim.fn.writefile({channel_id}, channels, "a")
 end
@@ -93,8 +93,17 @@ M.FunzzyEdit = function(opts)
   vim.cmd.edit(".watch.yaml")
 end
 
-M.FunzzyClose = function(opts)
-  local channels = get_cache_file_for_current_dir()
+-- FunzzyClose
+-- Closes all funzzy channels for the current working directory.
+--
+-- *Important*
+-- You don't need to call this command manually before exiting Vim,
+-- Vim takes care of closing the channels automatically.
+--
+-- This is useful if you have multiple funzzy instances running in different terminals
+-- and want to close them all at once.
+M.FunzzyClose = function()
+  local channels = channels_storage()
 
   local pids = vim.fn.readfile(channels)
   for _, pid in ipairs(pids) do
@@ -106,7 +115,7 @@ M.FunzzyClose = function(opts)
 end
 
 M.init = function()
-  vim.fn.delete(get_cache_file_for_current_dir())
+  vim.fn.delete(channels_storage())
 end
 
 return M

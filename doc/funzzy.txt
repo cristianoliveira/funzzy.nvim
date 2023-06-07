@@ -38,6 +38,10 @@ COMMANDS                                                  *funzzy-commands*
                                   the file does not exist, it will be created.
 
 :FunzzyInit                       Alias for :FunzzyEdit
+                                                          *:FunzzyClose*
+:FunzzyClose                      Closes all funzzy channels for the current
+                                  working directory. This IS NOT REQUIRED for
+                                  cleaning up running processes before exiting vim
 
                                                           *:Funzzy*
 :Funzzy <target>                  Watches using the `.watch.yaml` file in the
