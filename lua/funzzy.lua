@@ -15,6 +15,28 @@ local function open_panel(opts)
   end
 end
 
+
+local function get_cache_file_for_current_dir()
+  local current_pwd = vim.fn.expand('%:p:h')
+  local dir = vim.fn.stdpath('cache') .. '/funzzy'
+
+  if vim.fn.isdirectory(dir) == 0 then
+    vim.fn.mkdir(dir, "p")
+  end
+
+  local currdir = vim.fn.substitute(current_pwd, "/", "_", "g")
+
+  return dir .. "/" .. currdir
+end
+
+local function open_funzzy_terminal(cmd)
+  local channel_id = vim.fn.termopen(cmd)
+
+  local channels = get_cache_file_for_current_dir()
+
+  vim.fn.writefile({channel_id}, channels, "a")
+end
+
 local M = {}
 
 -- Funzzy
@@ -26,11 +48,11 @@ M.Funzzy = function(opts)
   open_panel(opts)
 
   if opts.target ~= "" then
-    vim.cmd.terminal("funzzy --non-block --target \"" .. opts.target .. "\"")
+    open_funzzy_terminal("funzzy --non-block --target \"" .. opts.target .. "\"")
     return
   end
 
-  vim.cmd.terminal("funzzy --non-block")
+  open_funzzy_terminal("funzzy --non-block")
 end
 
 -- FunzzyCmd
@@ -44,8 +66,8 @@ M.FunzzyCmd = function(opts)
   -- get current file directory
   local current_pwd = vim.fn.expand('%:p:h')
   local find_in_dir = "find -d ".. current_pwd .." -depth 1"
-  -- :h Bar
-  vim.cmd.terminal(find_in_dir .." | funzzy " .. opts.command .. " --non-block")
+
+  open_funzzy_terminal(find_in_dir .." | funzzy " .. opts.command .. " --non-block")
 end
 
 -- FunzzyEdit
@@ -69,6 +91,22 @@ M.FunzzyEdit = function(opts)
 
   open_panel(opts)
   vim.cmd.edit(".watch.yaml")
+end
+
+M.FunzzyClose = function(opts)
+  local channels = get_cache_file_for_current_dir()
+
+  local pids = vim.fn.readfile(channels)
+  for _, pid in ipairs(pids) do
+    vim.fn.chanclose(tonumber(pid))
+  end
+
+  vim.fn.delete(channels)
+  vim.notify("Funzzy: Closed all channels")
+end
+
+M.init = function()
+  vim.fn.delete(get_cache_file_for_current_dir())
 end
 
 return M
