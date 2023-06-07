@@ -82,7 +82,7 @@ M.FunzzyEdit = function(opts)
       return
     end
 
-    vim.cmd("funzzy init")
+    vim.cmd("! funzzy init")
     while vim.fn.filereadable(".watch.yaml") == 0 do
       vim.cmd("sleep 1")
     end
@@ -97,7 +97,7 @@ end
 --
 -- *Important*
 -- You don't need to call this command manually before exiting Vim,
--- Vim takes care of closing the channels automatically.
+-- Vim takes care of closing all channels automatically.
 --
 -- This is useful if you have multiple funzzy instances running in different terminals
 -- and want to close them all at once.
