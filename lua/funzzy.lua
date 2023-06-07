@@ -1,4 +1,4 @@
-local function open_panel(opts)
+local function open_buffer(opts)
   if opts.split == "t" then
     vim.cmd("tabnew")
     return
@@ -43,7 +43,7 @@ local M = {}
 -- @param opts.target: string (target to filter task from .watch.yaml)
 -- @param opts.split: string (v, s, t) (vertical, horizontal, tab)
 M.Funzzy = function(opts)
-  open_panel(opts)
+  open_buffer(opts)
 
   if opts.target ~= "" then
     open_funzzy_terminal("funzzy --non-block --target " .. opts.target)
@@ -59,7 +59,7 @@ end
 -- @param opts.command: string (command to run)
 -- @param opts.split: string (v, s, t) (vertical, horizontal, tab)
 M.FunzzyCmd = function(opts)
-  open_panel(opts)
+  open_buffer(opts)
 
   -- get current file directory
   local current_pwd = vim.fn.expand('%:p:h')
@@ -87,7 +87,7 @@ M.FunzzyEdit = function(opts)
     end
   end
 
-  open_panel(opts)
+  open_buffer(opts)
   vim.cmd.edit(".watch.yaml")
 end
 
