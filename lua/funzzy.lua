@@ -17,24 +17,22 @@ end
 
 
 local function channels_storage()
-  local current_pwd = vim.fn.expand('%:p:h')
+  local current_pwd = vim.fn.getcwd()
   local dir = vim.fn.stdpath('cache') .. '/funzzy'
 
   if vim.fn.isdirectory(dir) == 0 then
     vim.fn.mkdir(dir, "p")
   end
 
-  local currdir = vim.fn.substitute(current_pwd, "/", "_", "g")
-
-  return dir .. "/" .. currdir
+  local cacheid = vim.fn.sha256(current_pwd)
+  return dir .. "/" .. cacheid
 end
 
 local function open_funzzy_terminal(cmd)
-  local channel_id = vim.fn.termopen(cmd)
+  vim.cmd.terminal(cmd)
+  local channel_id = vim.b.terminal_job_id
 
-  local channels = channels_storage()
-
-  vim.fn.writefile({channel_id}, channels, "a")
+  vim.fn.writefile({channel_id}, channels_storage(), "a")
 end
 
 local M = {}
@@ -48,7 +46,7 @@ M.Funzzy = function(opts)
   open_panel(opts)
 
   if opts.target ~= "" then
-    open_funzzy_terminal("funzzy --non-block --target \"" .. opts.target .. "\"")
+    open_funzzy_terminal("funzzy --non-block --target " .. opts.target)
     return
   end
 
@@ -103,19 +101,26 @@ end
 -- This is useful if you have multiple funzzy instances running in different terminals
 -- and want to close them all at once.
 M.FunzzyClose = function()
-  local channels = channels_storage()
+  local session_channels = channels_storage()
+  if vim.fn.filereadable(session_channels) == 0 then
+    vim.notify("Funzzy: Nothing to close")
+    return
+  end
 
-  local pids = vim.fn.readfile(channels)
+  local pids = vim.fn.readfile(session_channels)
   for _, pid in ipairs(pids) do
     vim.fn.chanclose(tonumber(pid))
   end
 
-  vim.fn.delete(channels)
+  vim.fn.delete(session_channels)
   vim.notify("Funzzy: Closed all channels")
 end
 
 M.init = function()
-  vim.fn.delete(channels_storage())
+  local session_channels = channels_storage()
+  if vim.fn.filereadable(session_channels) == 0 then
+    vim.fn.delete(channels_storage())
+  end
 end
 
 return M
