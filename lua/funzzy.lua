@@ -1,3 +1,12 @@
+--
+-- Funzzy configuration variables
+--
+-- funzzy_bin: string (path to funzzy binary)
+--
+local funzzy_bin = vim.g.funzzy_bin or vim.fn.exepath("funzzy")
+
+local FUNZZY_CONFIG_FILE = ".watch.yaml"
+
 local function open_buffer(opts)
   if opts.split == "t" then
     vim.cmd("tabnew")
@@ -14,7 +23,6 @@ local function open_buffer(opts)
     return
   end
 end
-
 
 local function channels_storage()
   local current_pwd = vim.fn.getcwd()
@@ -35,7 +43,6 @@ local function open_funzzy_terminal(cmd)
   vim.fn.writefile({channel_id}, channels_storage(), "a")
 end
 
-local FUNZZY_FILE = ".watch.yaml"
 
 local M = {}
 
@@ -48,11 +55,11 @@ M.Funzzy = function(opts)
   open_buffer(opts)
 
   if opts.target ~= "" then
-    open_funzzy_terminal("funzzy --non-block --target " .. opts.target)
+    open_funzzy_terminal(funzzy_bin .. "--non-block --target " .. opts.target)
     return
   end
 
-  open_funzzy_terminal("funzzy --non-block")
+  open_funzzy_terminal(funzzy_bin .. " --non-block")
 end
 
 -- FunzzyCmd
@@ -67,7 +74,7 @@ M.FunzzyCmd = function(opts)
   local current_pwd = vim.fn.expand('%:p:h')
   local find_in_dir = "find -d ".. current_pwd .." -depth 1"
 
-  open_funzzy_terminal(find_in_dir .." | funzzy " .. opts.command .. " --non-block")
+  open_funzzy_terminal(find_in_dir .." | ".. funzzy_bin .." ".. opts.command .. " --non-block")
 end
 
 -- FunzzyEdit
@@ -89,7 +96,7 @@ M.FunzzyEdit = function(opts)
   end
 
   open_buffer(opts)
-  vim.cmd.edit(FUNZZY_FILE)
+  vim.cmd.edit(FUNZZY_CONFIG_FILE)
 end
 
 -- FunzzyClose
