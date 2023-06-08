@@ -55,7 +55,7 @@ M.Funzzy = function(opts)
   open_buffer(opts)
 
   if opts.target ~= "" then
-    open_funzzy_terminal(funzzy_bin .. "--non-block --target " .. opts.target)
+    open_funzzy_terminal(funzzy_bin .. " --non-block --target " .. opts.target)
     return
   end
 
