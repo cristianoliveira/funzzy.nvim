@@ -19,8 +19,8 @@ jobs:
         sudo apt install build-essential libreadline-dev unzip
         sudo apt install lua5.3
         wget https://luarocks.org/releases/luarocks-3.8.0.tar.gz
-        cd luarocks-3.8.0
         tar zxpf luarocks-3.8.0.tar.gz
+        cd luarocks-3.8.0
         sudo apt-get install luarocks
 
     - name: Run setup
