@@ -68,10 +68,15 @@ COMMANDS                                                  *funzzy-commands*
                                   a new horizontal split.
 :FunzzyCmdSplit <shell-command>   Same as :FunzzyCmd but opens the output in
                                   a new horizontal split
+
+                                                          *:FunzzyClose*
+:FunzzyClose                      Closes all funzzy channels for the current
+                                  working directory. This IS NOT REQUIRED for
+                                  cleaning up running processes before exiting vim
+
 ```
 
-## Continues integration
-
+## CI checks
 
 ### Unit tests
 

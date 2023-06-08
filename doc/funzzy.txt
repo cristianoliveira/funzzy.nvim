@@ -76,7 +76,7 @@ EXAMPLES                                                  *funzzy-examples*
  command below, this will spin a funzzy process which will watch the directory
  where the file is and will execute the command you passed as argument
 
- `:FunzzyCmd echo "this file changed {{filepath}}"`
+ `:FunzzyCmd echo "this file has changed {{filepath}}"`
 
  *Configured_tasks* - First configure the task file with `:FunzzyInit` once that
  is done execute `:Funzzy` which will spin the watcher and watch based on the
@@ -101,9 +101,10 @@ EXAMPLES                                                  *funzzy-examples*
 =============================================================================
 FAQ                                                       *funzzy-faq*
 
- - How can kill a running instance of funzzy?
+ - How can I kill a running instance of the watcher?
 
- This pluging spins a process using :terminal so the simplest way is
- pressing `i` and `<C-c>` for more run `:h terminal`
+ This plugin spins a process using :terminal so the simplest way is
+ pressing `i` and `<C-c>` for more run `:h terminal` or use |:FunzzyClose|
+ otherwise by quiting vim all running instances are going to be cleaned up.
 
  vim:tw=78:et:ft=help:norl:
