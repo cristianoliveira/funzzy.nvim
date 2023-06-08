@@ -10,22 +10,10 @@ local vim = {
     funzzy_bin = "/usr/bin/funzzy"
   },
 
-  cmd = function() end,
-
   b = { terminal_job_id = FAKE_CHANNEL_ID },
 
-  fn = {
-    stdpath = function() return "/.cache/nvim" end,
-    isdirectory = function() return TRUE end,
-    getcwd = function() return "/workdir" end,
-    sha256 = function() return "workdir_as_hash" end,
-    filereadable = function() return TRUE end,
-    confirm = function() return TRUE end,
-    edit = function() end,
-    delete = function() return TRUE end,
-    mkdir = function() return TRUE end,
-    writefile = function() return TRUE end,
-  },
+  cmd = spy.new(function() end),
+  fn = {},
 }
 
 describe("funzzy plugin", function()
@@ -114,7 +102,6 @@ describe("funzzy plugin", function()
 
   describe(":FunzzyClose", function()
     it("does not close anything if no channel is open in the cache", function()
-      vim.fn.filereadable = function() return 0 end
       vim.notify = spy.new(function() end)
 
       funzzy(vim).FunzzyClose()
@@ -124,24 +111,25 @@ describe("funzzy plugin", function()
         .was_called_with("Funzzy: Nothing to close")
     end)
 
-    it("closes all channels within the channels storage", function()
+    it("closes all channels within the open channels", function()
       vim.fn.filereadable = function() return 1 end
-      vim.fn.readfile = spy.new(function()
-        return { "1234", "5678" }
-      end)
       vim.fn.chanclose = spy.new(function() end)
 
-      funzzy(vim).FunzzyClose()
+      local instance = funzzy(vim)
 
-      assert
-        .spy(vim.fn.readfile)
-        .was_called_with("/.cache/nvim/funzzy/workdir_as_hash")
+      vim.b.terminal_job_id = 1234
+      instance.Funzzy({ target = "", split = ""})
+      vim.b.terminal_job_id = 3456
+      instance.Funzzy({ target = "", split = ""})
+
+      instance.FunzzyClose()
+
       assert
         .spy(vim.fn.chanclose)
         .was_called_with(1234)
       assert
         .spy(vim.fn.chanclose)
-        .was_called_with(5678)
+        .was_called_with(3456)
     end)
   end)
 
@@ -178,29 +166,6 @@ describe("funzzy plugin", function()
       assert.spy(vim.cmd).was_not_called_with(
         "tabnew", "botright :split", "botright :vsplit"
       )
-    end)
-  end)
-
-  describe("on init", function()
-    it("deletes the cache when cache for current workdir is present", function()
-      vim.fn.filereadable = function() return TRUE end
-      spy.on(vim.fn, "delete")
-
-      funzzy(vim).init()
-
-      assert
-        .spy(vim.fn.delete)
-        .was_called_with("/.cache/nvim/funzzy/workdir_as_hash")
-    end)
-
-    it("creates cache directory when not present", function()
-      spy.on(vim.fn, "mkdir")
-
-      funzzy(vim).init()
-
-      assert
-        .spy(vim.fn.mkdir)
-        .was_called_with("/.cache/nvim/funzzy", "p")
     end)
   end)
 end)

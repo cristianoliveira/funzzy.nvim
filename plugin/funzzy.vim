@@ -5,8 +5,6 @@ let g:funzzy_loaded = 1
 
 lua m = require("funzzy")
 
-lua m.init()
-
 command! -nargs=* FunzzyClose lua m.FunzzyClose({ target = '<f-args>', split = '' })
 
 command! -nargs=* FunzzyEdit lua m.FunzzyEdit({ target = '<f-args>', split = '' })
