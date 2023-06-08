@@ -21,7 +21,9 @@ jobs:
         wget https://luarocks.org/releases/luarocks-3.8.0.tar.gz
         tar zxpf luarocks-3.8.0.tar.gz
         cd luarocks-3.8.0
-        sudo apt-get install luarocks
+        ./configure --with-lua-include=/usr/local/include
+        make
+        sudo make install
 
     - name: Run setup
       run: make setup
