@@ -119,7 +119,7 @@ return function(vim)
 
     local pids = vim.fn.readfile(session_channels)
     for _, pid in ipairs(pids) do
-      vim.fn.chanclose(tonumber(pid))
+      pcall(vim.fn.chanclose, tonumber(pid))
     end
 
     vim.fn.delete(session_channels)
