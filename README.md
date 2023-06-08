@@ -70,6 +70,18 @@ COMMANDS                                                  *funzzy-commands*
                                   a new horizontal split
 ```
 
+## Unit test
+
+#### Requirement
+ - luarocks see: https://luarocks.org/
+ - busted see: https://lunarmodules.github.io/busted/
+
+```bash
+ luarocks install busted
+
+ make test
+```
+
 ## Contributing
 
 If you would like to contribute to Funzzy the Watcher, please feel free to open a pull request or issue on this repository.
