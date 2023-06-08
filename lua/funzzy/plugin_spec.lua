@@ -82,7 +82,7 @@ describe("funzzy plugin", function()
 
         assert
           .spy(vim.cmd)
-          .not_was_called("! funzzy init")
+          .was_not_called("! funzzy init")
       end)
 
       it("asks to create the config file in the working dir "..
@@ -175,7 +175,7 @@ describe("funzzy plugin", function()
 
       funzzy(vim).Funzzy({ target = "", split = ""})
 
-      assert.spy(vim.cmd).not_was_called_with(
+      assert.spy(vim.cmd).was_not_called_with(
         "tabnew", "botright :split", "botright :vsplit"
       )
     end)

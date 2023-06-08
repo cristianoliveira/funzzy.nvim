@@ -4,4 +4,8 @@ helptags:
 
 .PHONY: test
 test:
-  @busted lua/
+	@busted lua/
+
+.PHONY: lint
+lint:
+	@luacheck lua --globals=describe it spy assert vim

@@ -70,16 +70,27 @@ COMMANDS                                                  *funzzy-commands*
                                   a new horizontal split
 ```
 
-## Unit test
+## Continues integration
+
+
+### Unit tests
 
 #### Requirement
  - luarocks see: https://luarocks.org/
  - busted see: https://lunarmodules.github.io/busted/
 
 ```bash
- luarocks install busted
+luarocks install busted
 
- make test
+make test
+```
+
+### Linter
+
+```
+luarocks install luacheck
+
+make lint
 ```
 
 ## Contributing
