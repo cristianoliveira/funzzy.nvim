@@ -14,14 +14,18 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install dependencies
-      run: apt-get install luarocks
+    - uses: leafo/gh-actions-lua@v9
+      with:
+        luaVersion: "5.1.5"
+    - uses: leafo/gh-actions-luarocks@v4
 
-    - name: Run setup
-      run: make setup
+    - name: Install luarocks tools
+      run: |
+        luarocks install --local luacheck
+        luarocks install --local busted
 
     - name: Run test
       run: make test
-      
+
     - name: Run lint
       run: make lint
