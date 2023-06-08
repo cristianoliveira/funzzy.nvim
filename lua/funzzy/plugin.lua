@@ -44,6 +44,23 @@ return function(vim)
     vim.fn.writefile({channel_id}, channels_storage(), "a")
   end
 
+  local function cmd_builder(...)
+    local cmd = ""
+
+    for i = 1, select("#", ...) do
+      local arg = select(i, ...)
+      if cmd == "" then
+        cmd = arg
+      else
+        if arg ~= nil then
+          cmd = cmd .. " " .. arg
+        end
+      end
+    end
+
+    return cmd
+  end
+
 
   local M = {}
 
@@ -56,11 +73,12 @@ return function(vim)
     open_buffer(opts)
 
     if opts.target ~= "" then
-      open_funzzy_terminal(funzzy_bin .. " --non-block --target " .. opts.target)
-      return
+      return open_funzzy_terminal(
+        cmd_builder(funzzy_bin, "--non-block", "--target", opts.target)
+      )
     end
 
-    open_funzzy_terminal(funzzy_bin .. " --non-block")
+    open_funzzy_terminal(cmd_builder(funzzy_bin, "--non-block"))
   end
 
   -- FunzzyCmd
@@ -73,9 +91,10 @@ return function(vim)
 
     -- get current file directory
     local current_pwd = vim.fn.expand('%:p:h')
-    local find_in_dir = "find -d ".. current_pwd .." -depth 1"
+    local find_in_dir = cmd_builder("find", "-d", current_pwd, "-depth 1")
+    local funzzy_cmd = cmd_builder(funzzy_bin, opts.command, "--non-block")
 
-    open_funzzy_terminal(find_in_dir .." | ".. funzzy_bin .." ".. opts.command .. " --non-block")
+    open_funzzy_terminal(cmd_builder(find_in_dir,"|", funzzy_cmd))
   end
 
   -- FunzzyEdit
@@ -91,7 +110,7 @@ return function(vim)
       end
 
 
-      vim.cmd("! funzzy init")
+      vim.cmd(cmd_builder("!", "funzzy", "init"))
       while vim.fn.filereadable(".watch.yaml") == 0 do
         vim.cmd("sleep 1")
       end
