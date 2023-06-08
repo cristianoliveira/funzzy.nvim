@@ -1,1 +1,1 @@
-return require('funzzy/plugin')(vim)
+return require('funzzy.plugin')(vim)

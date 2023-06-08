@@ -1,4 +1,4 @@
-local funzzy = require("lua/funzzy/plugin")
+local funzzy = require("lua.funzzy.plugin")
 
 local TRUE = 0
 local FALSE = 1

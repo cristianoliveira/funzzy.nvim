@@ -1,3 +1,5 @@
+local cmd_builder = require("lua.funzzy.cmd_builder")
+
 return function(vim)
   --
   -- Funzzy configuration variables
@@ -40,20 +42,6 @@ return function(vim)
 
     vim.fn.writefile({channel_id}, channels_storage(), "a")
   end
-
-  local function cmd_builder(...)
-    local cmd = select(1, ...)
-
-    for i = 2, select("#", ...) do
-      local arg = select(i, ...)
-      if arg ~= nil then
-        cmd = cmd .. " " .. arg
-      end
-    end
-
-    return cmd
-  end
-
 
   local M = {}
 
