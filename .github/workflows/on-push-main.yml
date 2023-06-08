@@ -1,4 +1,4 @@
-name: Makefile CI
+name: CI checks
 
 on:
   push:
@@ -24,8 +24,8 @@ jobs:
         luarocks install --local luacheck
         luarocks install --local busted
 
-    - name: Run test
+    - name: Run tests
       run: make test
 
-    - name: Run lint
+    - name: Run linter
       run: make lint
