@@ -15,7 +15,13 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Install dependencies
-      run: sudo apt-get install luarocks
+      run: |
+        sudo apt install build-essential libreadline-dev unzip
+        sudo apt install lua5.3
+        wget https://luarocks.org/releases/luarocks-3.8.0.tar.gz
+        cd luarocks-3.8.0
+        tar zxpf luarocks-3.8.0.tar.gz
+        sudo apt-get install luarocks
 
     - name: Run setup
       run: make setup
