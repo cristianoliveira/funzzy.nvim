@@ -10,18 +10,15 @@ return function(vim)
 
   local function open_buffer(opts)
     if opts.split == "t" then
-      vim.cmd("tabnew")
-      return
+      return vim.cmd("tabnew")
     end
 
     if opts.split == "v" then
-      vim.cmd("botright :vsplit")
-      return
+      return vim.cmd("botright :vsplit")
     end
 
     if opts.split == "s" then
-      vim.cmd("botright :split")
-      return
+      return vim.cmd("botright :split")
     end
   end
 
@@ -45,16 +42,12 @@ return function(vim)
   end
 
   local function cmd_builder(...)
-    local cmd = ""
+    local cmd = select(1, ...)
 
-    for i = 1, select("#", ...) do
+    for i = 2, select("#", ...) do
       local arg = select(i, ...)
-      if cmd == "" then
-        cmd = arg
-      else
-        if arg ~= nil then
-          cmd = cmd .. " " .. arg
-        end
+      if arg ~= nil then
+        cmd = cmd .. " " .. arg
       end
     end
 
@@ -111,8 +104,10 @@ return function(vim)
 
 
       vim.cmd(cmd_builder("!", "funzzy", "init"))
-      while vim.fn.filereadable(".watch.yaml") == 0 do
+      local attempts = 5
+      while vim.fn.filereadable(".watch.yaml") == 0 or attempts > 0 do
         vim.cmd("sleep 1")
+        attempts = attempts - 1
       end
     end
 
