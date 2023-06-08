@@ -13,6 +13,7 @@ local vim = {
   b = { terminal_job_id = FAKE_CHANNEL_ID },
 
   cmd = spy.new(function() end),
+  notify = spy.new(function() end),
   fn = {},
 }
 
@@ -96,6 +97,23 @@ describe("funzzy plugin", function()
         assert
           .spy(vim.cmd)
           .was_called_with("edit .watch.yaml")
+      end)
+
+      it("times out if the config file is not created after 5 attempts", function()
+        vim.fn.filereadable = spy.new(function() return 0 end)
+        vim.notify = spy.new(function() end)
+
+        funzzy(vim).FunzzyEdit({ split = "" })
+
+        assert
+          .spy(vim.fn.filereadable)
+          .was_called(5 + 1)
+        assert
+          .spy(vim.notify)
+          .was_called_with("Funzzy: .watch.yaml was not created")
+        assert
+          .spy(vim.cmd)
+          .was_not_called("edit .watch.yaml")
       end)
     end)
   end)

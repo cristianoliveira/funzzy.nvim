@@ -24,8 +24,10 @@ return function(vim)
     end
   end
 
+  -- Stores all the open channels
   local channels = {}
 
+  -- Funzzy Module
   local M = {}
 
   local function open_funzzy_terminal(cmd)
@@ -72,6 +74,7 @@ return function(vim)
   --
   -- @param opts.split: string (v, s, t) (vertical, horizontal, tab)
   M.FunzzyEdit = function(opts)
+    local file_not_found = false
     if vim.fn.filereadable(".watch.yaml") == 0 then
       -- ask if user want to create .watch.yaml
       local create_answer = vim.fn.confirm("Funzzy: .watch.yaml was not found. Create for this directory?", "&Yes\n&No")
@@ -81,11 +84,21 @@ return function(vim)
 
 
       vim.cmd(cmd_builder("!", "funzzy", "init"))
-      local attempts = 5
-      while vim.fn.filereadable(".watch.yaml") == 0 or attempts > 0 do
+      local attempts = 4
+      while vim.fn.filereadable(".watch.yaml") == 0 do
         vim.cmd("sleep 1")
         attempts = attempts - 1
+
+        if attempts < 0 then
+          file_not_found = true
+          break
+        end
       end
+    end
+
+    if file_not_found then
+      vim.notify("Funzzy: .watch.yaml was not created")
+      return
     end
 
     open_buffer(opts)
