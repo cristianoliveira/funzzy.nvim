@@ -71,7 +71,7 @@ describe("funzzy plugin", function()
 
         assert
           .spy(vim.cmd)
-          .was_not_called("! funzzy init")
+          .was_not_called("! /usr/bin/funzzy init")
       end)
 
       it("asks to create the config file in the working dir "..
@@ -93,7 +93,7 @@ describe("funzzy plugin", function()
 
         assert
           .spy(vim.cmd)
-          .was_called_with("! funzzy init")
+          .was_called_with("! /usr/bin/funzzy init")
         assert
           .spy(vim.cmd)
           .was_called_with("edit .watch.yaml")

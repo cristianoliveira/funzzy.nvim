@@ -83,7 +83,7 @@ return function(vim)
       end
 
 
-      vim.cmd(cmd_builder("!", "funzzy", "init"))
+      vim.cmd(cmd_builder("!", funzzy_bin, "init"))
       local attempts = 4
       while vim.fn.filereadable(".watch.yaml") == 0 do
         vim.cmd("sleep 1")
