@@ -1,0 +1,27 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: apt get luarocks
+
+    - name: Run setup
+      run: make setup
+
+    - name: Run test
+      run: make test
+      
+    - name: Run lint
+      run: make lint
