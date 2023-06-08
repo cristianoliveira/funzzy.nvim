@@ -14,19 +14,15 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install dependencies
-      run: |
-        sudo apt install build-essential libreadline-dev unzip
-        sudo apt install lua5.3
-        wget https://luarocks.org/releases/luarocks-3.8.0.tar.gz
-        tar zxpf luarocks-3.8.0.tar.gz
-        cd luarocks-3.8.0
-        ./configure --with-lua-include=/usr/local/include
-        make
-        sudo make install
+    - uses: leafo/gh-actions-lua@v9
+      with:
+        luaVersion: "5.1.5"
+    - uses: leafo/gh-actions-luarocks@v4
 
-    - name: Run setup
-      run: make setup
+    - name: Install luarocks tools
+      run: |
+        luarocks install --local luacheck
+        luarocks install --local busted
 
     - name: Run test
       run: make test
