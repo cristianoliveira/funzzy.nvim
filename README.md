@@ -24,7 +24,9 @@ https://github.com/cristianoliveira/funzzy.nvim/assets/3959744/fb74764a-eac4-4d2
 ## Installation
 
 ### Requirements
- - Make sure you have [funzzy installed](https://github.com/cristianoliveira/funzzy#installing) or use `cargo` (see below)
+ 
+ - Make sure you have the latest version of [funzzy installed](https://github.com/cristianoliveira/funzzy#installing) 
+ - Or [cargo installed](https://doc.rust-lang.org/cargo/getting-started/installation.html) (see below)
 
 To install this plugin, you can use your favorite plugin manager.
 
