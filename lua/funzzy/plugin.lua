@@ -83,12 +83,12 @@ return function(vim)
 
 
       vim.cmd(cmd_builder("!", funzzy_bin, "init"))
-      local attempts = 4
+      local attempts = 5
       while vim.fn.filereadable(".watch.yaml") == 0 do
         vim.cmd("sleep 1")
         attempts = attempts - 1
 
-        if attempts < 0 then
+        if attempts <= 0 then
           file_not_found = true
           break
         end
@@ -96,8 +96,7 @@ return function(vim)
     end
 
     if file_not_found then
-      vim.notify("Funzzy: .watch.yaml was not created")
-      return
+      return vim.notify("Funzzy: .watch.yaml was not created")
     end
 
     open_buffer(opts)
