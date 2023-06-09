@@ -35,6 +35,8 @@ Plugin 'cristianoliveira/funzzy.nvim', { 'do': 'cargo install funzzy' }
 use { 'cristianoliveira/funzzy.nvim', run = 'cargo install funzzy' }
 ```
 
+It assumes you have [cargo installed](https://doc.rust-lang.org/cargo/getting-started/installation.html) for other options to install funzzy cli see: https://github.com/cristianoliveira/funzzy#installing
+
 ## Usage
 
 See `/docs/funzzy.txt`
