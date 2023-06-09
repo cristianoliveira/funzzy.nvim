@@ -48,7 +48,7 @@ Create the `.watch.yaml` for the working project by running `:FunzzyInit` add th
 
 ## Usage
 
-See `/docs/funzzy.txt`
+See `:help Funzzy` or check [the docs](https://github.com/cristianoliveira/funzzy.nvim/blob/main/doc/funzzy.txt)
 
 ```txt
 COMMANDS                                                  *funzzy-commands*
