@@ -17,7 +17,9 @@ FEATURES                                                  *funzzy-features*
 ```
 ### Demo
 
-https://github.com/cristianoliveira/funzzy.nvim/assets/3959744/a355388a-8fcd-4c5d-ae43-ec5287500a13
+
+https://github.com/cristianoliveira/funzzy.nvim/assets/3959744/fb74764a-eac4-4d23-ac0a-662527a38078
+
 
 ## Installation
 
