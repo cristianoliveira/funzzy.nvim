@@ -23,6 +23,9 @@ https://github.com/cristianoliveira/funzzy.nvim/assets/3959744/fb74764a-eac4-4d2
 
 ## Installation
 
+### Requirements
+ - Make sure you have [funzzy installed](https://github.com/cristianoliveira/funzzy#installing) or use `cargo` (see below)
+
 To install this plugin, you can use your favorite plugin manager.
 
 [vim-plug](https://github.com/junegunn/vim-plug) or [vundle](https://github.com/VundleVim/Vundle.vim)
@@ -96,6 +99,7 @@ COMMANDS                                                  *funzzy-commands*
 #### Requirement
  - luarocks see: https://luarocks.org/
  - busted see: https://lunarmodules.github.io/busted/
+ - luacheck see: https://github.com/mpeterv/luacheck
 
 ```bash
 luarocks install busted
