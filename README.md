@@ -1,6 +1,6 @@
 # funzzy.nvim [![CI checks](https://github.com/cristianoliveira/funzzy.nvim/actions/workflows/on-push-main.yml/badge.svg)](https://github.com/cristianoliveira/funzzy.nvim/actions/workflows/on-push-main.yml)
 
-It is a Neovim plugin that allows you to watch for changes in files and directories and take action when they occur. Configure custom tasks and commands for different directories.
+It is a Neovim plugin that allows you to watch for changes in files and directories and run shell commands when they happen. It allows you to configure custom tasks and commands for different directories or run arbitrary commands for the current working directory.
 
 ```txt
 FEATURES                                                  *funzzy-features*
