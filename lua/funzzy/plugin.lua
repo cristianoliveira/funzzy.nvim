@@ -1,5 +1,4 @@
-local cmd_builder = require("lua.funzzy.cmd_builder")
-
+local cmd_builder = require('funzzy.cmd_builder')
 return function(vim)
   --
   -- Funzzy configuration variables

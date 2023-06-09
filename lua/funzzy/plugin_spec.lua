@@ -1,4 +1,5 @@
-local funzzy = require("lua.funzzy.plugin")
+package.path = package.path .. ';lua/?.lua'
+local funzzy = require("funzzy.plugin")
 
 local TRUE = 0
 local FALSE = 1

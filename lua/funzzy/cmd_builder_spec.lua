@@ -1,4 +1,6 @@
-local cmd_builder = require("lua.funzzy.cmd_builder")
+package.path = package.path .. ';lua/?.lua'
+
+local cmd_builder = require("funzzy.cmd_builder")
 
 describe("cmd_builder", function()
   it("returns command and arguments as string", function()
