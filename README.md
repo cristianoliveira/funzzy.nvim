@@ -1,8 +1,8 @@
 # funzzy.nvim [![CI checks](https://github.com/cristianoliveira/funzzy.nvim/actions/workflows/on-push-main.yml/badge.svg)](https://github.com/cristianoliveira/funzzy.nvim/actions/workflows/on-push-main.yml)
 
-The plugin for running [funzzy](https://github.com/cristianoliveira/funzzy) the watcher inside of the Neovim. 
+The plugin for running [funzzy](https://github.com/cristianoliveira/funzzy) the watcher inside of Neovim. 
 
-This Neovim plugin allows you to watch for changes in files and directories and run shell commands when they happen. It can be configured to run custom tasks and commands for different directories or run arbitrary commands for the current working directory.
+This Neovim plugin allows you to watch for changes in files and directories and execute shell commands when they happen. It can be configured to run custom by using :FunzzyInit and editing the config file or run arbitrary commands for the current working directory.
 
 ```txt
 FEATURES                                                  *funzzy-features*
@@ -36,6 +36,10 @@ use { 'cristianoliveira/funzzy.nvim', run = 'cargo install funzzy' }
 ```
 
 It assumes you have [cargo installed](https://doc.rust-lang.org/cargo/getting-started/installation.html) for other options to install funzzy cli see: https://github.com/cristianoliveira/funzzy#installing
+
+## Getting started
+
+Create the `.watch.yaml` for the working project by running `:FunzzyInit` add the rules and commands for funzzy ([See examples](https://github.com/cristianoliveira/funzzy/tree/master/examples)) and then run `:Funzzy` that should be it, now evertime any file changing that matches the defined rules will be executed by funzzy and the output send to the current buffer.
 
 ## Usage
 
