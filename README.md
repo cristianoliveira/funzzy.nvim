@@ -13,6 +13,13 @@ FEATURES                                                  *funzzy-features*
 - Uses a very lightweight process made with Rust
 
 ```
+### Demo
+
+
+
+https://github.com/cristianoliveira/funzzy.nvim/assets/3959744/eff1c5e5-5e64-4e6b-ab7a-8ac404a1861f
+
+
 
 ## Installation
 
