@@ -2,7 +2,7 @@
 
 The plugin for running [funzzy](https://github.com/cristianoliveira/funzzy) the watcher inside of Neovim. 
 
-This Neovim plugin allows you to watch for changes in files and directories and execute shell commands when they happen. It can be configured to run custom by using :FunzzyInit and editing the config file or run arbitrary commands for the current working directory.
+This Neovim plugin allows you to watch for changes in files and directories and execute shell commands when they happen. It can be configured to run custom configurations by using `:FunzzyEdit` or run arbitrary commands for the current working directory with `:FunzzyCmd`.
 
 ```txt
 FEATURES                                                  *funzzy-features*
