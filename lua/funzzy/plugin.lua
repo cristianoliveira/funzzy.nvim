@@ -23,7 +23,7 @@ return function(vim)
     end
   end
 
-  -- Stores all the open channels
+  -- Stores all open channels
   local channels = {}
 
   -- Funzzy Module
@@ -60,12 +60,15 @@ return function(vim)
   M.FunzzyCmd = function(opts)
     open_buffer(opts)
 
-    -- get current file directory
-    local current_pwd = vim.fn.expand('%:p:h')
-    local find_in_dir = cmd_builder("find", "-d", current_pwd, "-depth 1")
-    local funzzy_cmd = cmd_builder(funzzy_bin, opts.command, "--non-block")
+    local workdir = vim.fn.expand('%:p:h')
+    local find_in_dir = cmd_builder("find", "-d", workdir, "-depth 1")
+    local run_arbitrary_cmd = cmd_builder(
+      funzzy_bin,
+      opts.command,
+      "--non-block"
+    )
 
-    open_funzzy_terminal(cmd_builder(find_in_dir,"|", funzzy_cmd))
+    open_funzzy_terminal(cmd_builder(find_in_dir,"|", run_arbitrary_cmd))
   end
 
   -- FunzzyEdit
@@ -76,7 +79,10 @@ return function(vim)
     local file_not_found = false
     if vim.fn.filereadable(".watch.yaml") == 0 then
       -- ask if user want to create .watch.yaml
-      local create_answer = vim.fn.confirm("Funzzy: .watch.yaml was not found. Create for this directory?", "&Yes\n&No")
+      local create_answer = vim.fn.confirm(
+        "Funzzy: .watch.yaml was not found. "..
+        "Create for this directory?", "&Yes\n&No"
+      )
       if create_answer ~= 1 then
         return
       end

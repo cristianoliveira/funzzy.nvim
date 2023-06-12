@@ -1,3 +1,6 @@
+--
+-- cmd_builder: Build a command from a list of arguments
+--
 return function(...)
   local cmd = select(1, ...)
 
