@@ -15,7 +15,16 @@ return function(vim)
     return true
   end
 
-  vim.g.has_funzzy_deps    = vim.g.has_funzzy_deps or has_funzzy_deps
+  vim.g.funzzy_has_deps    = vim.g.funzzy_has_deps or has_funzzy_deps
+
+  local has_correct_setup  = function()
+    if not vim.g.funzzy_has_deps() then
+      vim.notify("Funzzy: funzzy cli not found run `cargo install funzzy`")
+      return false
+    end
+
+    return true
+  end
 
   local FUNZZY_CONFIG_FILE = ".watch.yaml"
 
@@ -51,6 +60,10 @@ return function(vim)
   -- @param opts.target: string (target to filter task from .watch.yaml)
   -- @param opts.split: string (v, s, t) (vertical, horizontal, tab)
   M.Funzzy = function(opts)
+    if not has_correct_setup() then
+      return
+    end
+
     open_buffer(opts)
 
     if opts.target ~= "" then
@@ -68,6 +81,10 @@ return function(vim)
   -- @param opts.command: string (command to run)
   -- @param opts.split: string (v, s, t) (vertical, horizontal, tab)
   M.FunzzyCmd = function(opts)
+    if not has_correct_setup() then
+      return
+    end
+
     open_buffer(opts)
 
     local workdir = vim.fn.expand('%:p:h')
@@ -86,8 +103,8 @@ return function(vim)
   --
   -- @param opts.split: string (v, s, t) (vertical, horizontal, tab)
   M.FunzzyEdit = function(opts)
-    if not vim.g.has_funzzy_deps() then
-      return vim.notify("Funzzy: funzzy cli not found run `cargo install funzzy`")
+    if not has_correct_setup() then
+      return
     end
 
     local file_not_found = false
@@ -97,6 +114,7 @@ return function(vim)
         "Funzzy: .watch.yaml was not found. " ..
         "Create for this directory?", "&Yes\n&No"
       )
+
       if create_answer ~= 1 then
         return
       end

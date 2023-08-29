@@ -6,20 +6,28 @@ local FALSE = 1
 
 local FAKE_CHANNEL_ID = 1234
 
-local vim = {
-  g = {
-    funzzy_bin = "/usr/bin/funzzy",
-    has_funzzy_deps = function() return true end
-  },
-
-  b = { terminal_job_id = FAKE_CHANNEL_ID },
-
-  cmd = spy.new(function() end),
-  notify = spy.new(function() end),
-  fn = {},
-}
+local vim = {}
 
 describe("funzzy plugin", function()
+  before_each(function()
+    vim = {
+      g = {
+        funzzy_bin = "/usr/bin/funzzy",
+        funzzy_has_deps = spy.new(function() return true end)
+      },
+
+      b = { terminal_job_id = FAKE_CHANNEL_ID },
+
+      cmd = spy.new(function() end),
+      notify = spy.new(function() end),
+
+      fn = {
+        filereadable = spy.new(function() return FALSE end),
+        confirm = spy.new(function() return FALSE end)
+      },
+    }
+  end)
+
   describe("Commands", function()
     describe(":Funnzy", function()
       it("spins up the watcher with the received 'target'", function()
@@ -120,7 +128,7 @@ describe("funzzy plugin", function()
         spy.on(vim, "cmd")
 
         vim.notify = spy.new(function() end)
-        vim.g.has_funzzy_deps = spy.new(function() return false end)
+        vim.g.funzzy_has_deps = spy.new(function() return false end)
 
         funzzy(vim).FunzzyEdit({})
 
