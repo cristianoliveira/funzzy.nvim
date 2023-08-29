@@ -5,8 +5,14 @@
 
 - name: run my test
   run: 'make test'
-  change: 'lua/**'
+  change: [
+    '**/*.vim',
+    '**/*.lua',
+  ]
 
 - name: run my linter
   run: 'make lint'
-  change: 'lua/**'
+  change: [
+    '**/*.vim',
+    '**/*.lua',
+  ]
