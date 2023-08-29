@@ -5,7 +5,17 @@ return function(vim)
   --
   -- funzzy_bin: string (path to funzzy binary)
   --
-  local funzzy_bin = vim.g.funzzy_bin or vim.fn.exepath("funzzy")
+  local funzzy_bin         = vim.g.funzzy_bin or vim.fn.exepath("funzzy")
+
+  local has_funzzy_deps    = function()
+    if vim.fn.filereadable(funzzy_bin) == 0 then
+      return false
+    end
+
+    return true
+  end
+
+  vim.g.has_funzzy_deps    = vim.g.has_funzzy_deps or has_funzzy_deps
 
   local FUNZZY_CONFIG_FILE = ".watch.yaml"
 
@@ -68,7 +78,7 @@ return function(vim)
       "--non-block"
     )
 
-    open_funzzy_terminal(cmd_builder(find_in_dir,"|", run_arbitrary_cmd))
+    open_funzzy_terminal(cmd_builder(find_in_dir, "|", run_arbitrary_cmd))
   end
 
   -- FunzzyEdit
@@ -76,11 +86,15 @@ return function(vim)
   --
   -- @param opts.split: string (v, s, t) (vertical, horizontal, tab)
   M.FunzzyEdit = function(opts)
+    if not vim.g.has_funzzy_deps() then
+      return vim.notify("Funzzy: funzzy cli not found run `cargo install funzzy`")
+    end
+
     local file_not_found = false
     if vim.fn.filereadable(".watch.yaml") == 0 then
       -- ask if user want to create .watch.yaml
       local create_answer = vim.fn.confirm(
-        "Funzzy: .watch.yaml was not found. "..
+        "Funzzy: .watch.yaml was not found. " ..
         "Create for this directory?", "&Yes\n&No"
       )
       if create_answer ~= 1 then

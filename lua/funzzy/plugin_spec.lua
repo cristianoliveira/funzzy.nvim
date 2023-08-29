@@ -8,7 +8,8 @@ local FAKE_CHANNEL_ID = 1234
 
 local vim = {
   g = {
-    funzzy_bin = "/usr/bin/funzzy"
+    funzzy_bin = "/usr/bin/funzzy",
+    has_funzzy_deps = function() return true end
   },
 
   b = { terminal_job_id = FAKE_CHANNEL_ID },
@@ -24,21 +25,21 @@ describe("funzzy plugin", function()
       it("spins up the watcher with the received 'target'", function()
         spy.on(vim, "cmd")
 
-        funzzy(vim).Funzzy({ target = "tests", split = ""})
+        funzzy(vim).Funzzy({ target = "tests", split = "" })
 
         assert
-          .spy(vim.cmd)
-          .was_called_with("terminal /usr/bin/funzzy --non-block --target tests")
+            .spy(vim.cmd)
+            .was_called_with("terminal /usr/bin/funzzy --non-block --target tests")
       end)
 
       it("spins up the watcher without target by default", function()
         spy.on(vim, "cmd")
 
-        funzzy(vim).Funzzy({ target = "", split = ""})
+        funzzy(vim).Funzzy({ target = "", split = "" })
 
         assert
-          .spy(vim.cmd)
-          .was_called_with("terminal /usr/bin/funzzy --non-block")
+            .spy(vim.cmd)
+            .was_called_with("terminal /usr/bin/funzzy --non-block")
       end)
     end)
 
@@ -47,58 +48,56 @@ describe("funzzy plugin", function()
         vim.fn.expand = function() return "/current_dir" end
         spy.on(vim, "cmd")
 
-        funzzy(vim).FunzzyCmd({ command = "echo 'test'", split = ""})
+        funzzy(vim).FunzzyCmd({ command = "echo 'test'", split = "" })
 
         assert
-          .spy(vim.cmd)
-          .was_called_with(
-            "terminal" ..
-            " find -d /current_dir -depth 1 |" ..
-            " /usr/bin/funzzy echo 'test' --non-block"
-          )
+            .spy(vim.cmd)
+            .was_called_with(
+              "terminal" ..
+              " find -d /current_dir -depth 1 |" ..
+              " /usr/bin/funzzy echo 'test' --non-block"
+            )
       end)
     end)
 
     describe(":FunzzyEdit", function()
-      it("asks to create the config file in the working dir "..
-            "if not present but DO NOT create if answer is NO", function()
+      it("asks to create the config file in the working dir " ..
+        "if not present but DO NOT create if answer is NO", function()
+          vim.fn.filereadable = function() return FALSE end
+          vim.fn.confirm = function() return FALSE end
 
-        vim.fn.filereadable = function() return FALSE end
-        vim.fn.confirm = function() return FALSE end
+          spy.on(vim, "cmd")
 
-        spy.on(vim, "cmd")
+          funzzy(vim).FunzzyEdit({ split = "" })
 
-        funzzy(vim).FunzzyEdit({ split = "" })
+          assert
+              .spy(vim.cmd)
+              .was_not_called("! /usr/bin/funzzy init")
+        end)
 
-        assert
-          .spy(vim.cmd)
-          .was_not_called("! /usr/bin/funzzy init")
-      end)
+      it("asks to create the config file in the working dir " ..
+        "if not present, runs funzzy init waiting to be" ..
+        "created before opening it", function()
+          local times = 0
+          vim.fn.filereadable = function()
+            times = times + 1
+            if times > 2 then return FALSE end
+            return TRUE
+          end
 
-      it("asks to create the config file in the working dir "..
-          "if not present, runs funzzy init waiting to be" ..
-          "created before opening it", function()
+          vim.fn.confirm = function() return 1 end
 
-        local times = 0
-        vim.fn.filereadable = function()
-          times = times + 1
-          if times > 2 then return FALSE end
-          return TRUE
-        end
+          spy.on(vim, "cmd")
 
-        vim.fn.confirm = function() return 1 end
+          funzzy(vim).FunzzyEdit({ split = "" })
 
-        spy.on(vim, "cmd")
-
-        funzzy(vim).FunzzyEdit({ split = "" })
-
-        assert
-          .spy(vim.cmd)
-          .was_called_with("! /usr/bin/funzzy init")
-        assert
-          .spy(vim.cmd)
-          .was_called_with("edit .watch.yaml")
-      end)
+          assert
+              .spy(vim.cmd)
+              .was_called_with("! /usr/bin/funzzy init")
+          assert
+              .spy(vim.cmd)
+              .was_called_with("edit .watch.yaml")
+        end)
 
       it("times out if the config file is not created after 5 attempts", function()
         vim.fn.filereadable = spy.new(function() return 0 end)
@@ -107,14 +106,29 @@ describe("funzzy plugin", function()
         funzzy(vim).FunzzyEdit({ split = "" })
 
         assert
-          .spy(vim.fn.filereadable)
-          .was_called(5 + 1)
+            .spy(vim.fn.filereadable)
+            .was_called(5 + 1)
         assert
-          .spy(vim.notify)
-          .was_called_with("Funzzy: .watch.yaml was not created")
+            .spy(vim.notify)
+            .was_called_with("Funzzy: .watch.yaml was not created")
         assert
-          .spy(vim.cmd)
-          .was_not_called("edit .watch.yaml")
+            .spy(vim.cmd)
+            .was_not_called("edit .watch.yaml")
+      end)
+
+      it("checks for the presence of `funzzy` cli and shows a message", function()
+        spy.on(vim, "cmd")
+
+        vim.notify = spy.new(function() end)
+        vim.g.has_funzzy_deps = spy.new(function() return false end)
+
+        funzzy(vim).FunzzyEdit({})
+
+        assert
+            .spy(vim.notify)
+            .was_called_with(
+              "Funzzy: funzzy cli not found run `cargo install funzzy`"
+            )
       end)
     end)
   end)
@@ -126,8 +140,8 @@ describe("funzzy plugin", function()
       funzzy(vim).FunzzyClose()
 
       assert
-        .spy(vim.notify)
-        .was_called_with("Funzzy: Nothing to close")
+          .spy(vim.notify)
+          .was_called_with("Funzzy: Nothing to close")
     end)
 
     it("closes all channels within the open channels", function()
@@ -137,18 +151,18 @@ describe("funzzy plugin", function()
       local instance = funzzy(vim)
 
       vim.b.terminal_job_id = 1234
-      instance.Funzzy({ target = "", split = ""})
+      instance.Funzzy({ target = "", split = "" })
       vim.b.terminal_job_id = 3456
-      instance.Funzzy({ target = "", split = ""})
+      instance.Funzzy({ target = "", split = "" })
 
       instance.FunzzyClose()
 
       assert
-        .spy(vim.fn.chanclose)
-        .was_called_with(1234)
+          .spy(vim.fn.chanclose)
+          .was_called_with(1234)
       assert
-        .spy(vim.fn.chanclose)
-        .was_called_with(3456)
+          .spy(vim.fn.chanclose)
+          .was_called_with(3456)
     end)
   end)
 
@@ -156,7 +170,7 @@ describe("funzzy plugin", function()
     it("opens the watcher in a new tab when split is 't'", function()
       spy.on(vim, "cmd")
 
-      funzzy(vim).Funzzy({ target = "", split = "t"})
+      funzzy(vim).Funzzy({ target = "", split = "t" })
 
       assert.spy(vim.cmd).was_called_with("tabnew")
     end)
@@ -164,7 +178,7 @@ describe("funzzy plugin", function()
     it("opens the watcher in a new vertical split when split is 'v'", function()
       spy.on(vim, "cmd")
 
-      funzzy(vim).Funzzy({ target = "", split = "v"})
+      funzzy(vim).Funzzy({ target = "", split = "v" })
 
       assert.spy(vim.cmd).was_called_with("botright :vsplit")
     end)
@@ -172,7 +186,7 @@ describe("funzzy plugin", function()
     it("opens the watcher in a new horizontal split when split is 's'", function()
       spy.on(vim, "cmd")
 
-      funzzy(vim).Funzzy({ target = "", split = "s"})
+      funzzy(vim).Funzzy({ target = "", split = "s" })
 
       assert.spy(vim.cmd).was_called_with("botright :split")
     end)
@@ -180,7 +194,7 @@ describe("funzzy plugin", function()
     it("opens the watcher in current buffer when split is empty", function()
       spy.on(vim, "cmd")
 
-      funzzy(vim).Funzzy({ target = "", split = ""})
+      funzzy(vim).Funzzy({ target = "", split = "" })
 
       assert.spy(vim.cmd).was_not_called_with(
         "tabnew", "botright :split", "botright :vsplit"
