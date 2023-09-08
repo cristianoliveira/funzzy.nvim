@@ -72,21 +72,6 @@ COMMANDS                                                  *funzzy-commands*
 :FunzzyCmd <shell-command>        Watches the current directory and runs the
                                   given shell command on each change.
 
-:FunzzyTab <target>               Same as :Funzzy but opens the output in a
-                                  new tab.
-:FunzzyCmdTab <shell-command>     Same as :FunzzyCmd but opens the output in
-                                  a new tab.
-
-:FunzzyVSplit <target>            Same as :Funzzy but opens the output in a
-                                  new vertical split.
-:FunzzyCmdVSplit <shell-command>  Same as :FunzzyCmd but opens the output in
-                                  a new vertical split.
-
-:FunzzySplit <target>             Same as :Funzzy but opens the output in
-                                  a new horizontal split.
-:FunzzyCmdSplit <shell-command>   Same as :FunzzyCmd but opens the output in
-                                  a new horizontal split
-
                                                           *:FunzzyClose*
 :FunzzyClose                      Closes all funzzy channels for the current
                                   working directory. This IS NOT REQUIRED for
