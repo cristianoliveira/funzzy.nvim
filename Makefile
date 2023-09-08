@@ -13,4 +13,4 @@ test:
 
 .PHONY: lint
 lint:
-	@luacheck lua --globals=describe it spy assert vim
+	@luacheck lua
