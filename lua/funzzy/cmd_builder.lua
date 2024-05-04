@@ -1,6 +1,7 @@
 --
 -- cmd_builder: Build a command from a list of arguments
---
+---@param ... string[]
+---@return string
 return function(...)
   local cmd = select(1, ...)
 
