@@ -39,7 +39,14 @@ Plugin 'cristianoliveira/funzzy.nvim', { 'do': 'cargo install funzzy' }
 [packer](https://github.com/wbthomason/packer.nvim)
 
 ```lua
+-- To install fzz using cargo
 use { 'cristianoliveira/funzzy.nvim', run = 'cargo install funzzy' }
+
+-- If you have fzz already installed use `fzz_bin`
+use {
+  'cristianoliveira/funzzy.nvim',
+  opts = { fzz_bin = '/home/cris/bin/fzz' }
+}
 ```
 
 It assumes you have [cargo installed](https://doc.rust-lang.org/cargo/getting-started/installation.html) for other options to install funzzy cli see: https://github.com/cristianoliveira/funzzy#installing
