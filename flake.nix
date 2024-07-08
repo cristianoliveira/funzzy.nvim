@@ -10,7 +10,7 @@
       lib = nixpkgs.lib;
       recursiveMergeAttrs = listOfAttrsets: lib.fold (attrset: acc: lib.recursiveUpdate attrset acc) {} listOfAttrsets;
 
-      systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+      systems = [ "x86_64-linux" "x86_64-darwin" ];
 
       systemPackages = map (system:
         let
@@ -45,7 +45,7 @@
             checkPhase = ''
 
               echo "Running quick checks:"
-              ${pkgs.lua54Packages.busted}/bin/busted lua
+              ${pkgs.lua52Packages.busted}/bin/busted lua
               ${pkgs.lua54Packages.luacheck}/bin/luacheck lua
 
               echo "Running tests: for ${system}"
