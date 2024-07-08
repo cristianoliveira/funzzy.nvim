@@ -49,7 +49,7 @@
               ${pkgs.lua54Packages.luacheck}/bin/luacheck lua
 
               echo "Running tests: for ${system}"
-              ./nvim-test.sh
+              $PWD/nvim-test.sh
             '';
 
             buildPhase = ''
