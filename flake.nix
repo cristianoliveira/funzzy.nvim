@@ -9,12 +9,20 @@
       let
         pkgs = import nixpkgs { inherit system; };
         shell = pkgs.bash;
+
+        pluginPkgs = with pkgs; [
+          (pkgs.lua5_2.withPackages (ps: with ps; [
+            busted 
+            luafilesystem
+            luacheck 
+            luarocks
+          ]))
+          neovim
+        ];
       in {
 
         devShells.default = pkgs.mkShell {
-          packages = with pkgs; [
-            hello
-          ];
+          packages = pluginPkgs;
         };
 
         packages = {
@@ -24,16 +32,7 @@
             src = ./.;
             doCheck = true;
 
-            checkInputs = with pkgs; [
-              (pkgs.lua5_2.withPackages (ps: with ps; [
-                busted 
-                luafilesystem
-                luacheck 
-                luarocks
-              ]))
-              neovim
-
-            ];
+            checkInputs = pluginPkgs;
 
             # NOTE: Configure the test environment
             configurePhase = ''
@@ -46,8 +45,6 @@
               echo "Running quick checks:"
               ${pkgs.lua54Packages.busted}/bin/busted lua
               ${pkgs.lua54Packages.luacheck}/bin/luacheck lua
-
-              ls -la
 
               echo "Running tests: for ${system}"
               ${shell}/bin/bash ./nvim-test.sh
