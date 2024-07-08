@@ -22,13 +22,17 @@
           };
 
           funzzy_nvim = pkgs.stdenv.mkDerivation {
-            name = "buld plugins for ${system}";
+            name = "fzz vim for ${system}";
             src = ./.;
             doCheck = true;
 
             checkInputs = with pkgs; [
-              lua
-              lua54Packages.luarocks
+              (pkgs.lua5_2.withPackages (ps: with ps; [
+                busted 
+                luafilesystem
+                luacheck 
+                luarocks
+              ]))
               neovim
             ];
 

@@ -22,6 +22,7 @@
     - nix flake check
     - nix build .#funzzy_nvim --verbose -L
     - nix flake update
+  run_on_init: true
   change:
     - '**/*.sh'
     - '**/*.nix'
