@@ -14,3 +14,8 @@ test:
 .PHONY: lint
 lint:
 	@luacheck lua
+
+# Nix builds use this
+.PHONY: install
+install:
+	@echo "Nothing to install"

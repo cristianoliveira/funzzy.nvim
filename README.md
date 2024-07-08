@@ -45,7 +45,9 @@ use { 'cristianoliveira/funzzy.nvim', run = 'cargo install funzzy' }
 -- If you have fzz already installed use `fzz_bin`
 use {
   'cristianoliveira/funzzy.nvim',
-  opts = { fzz_bin = '/home/cris/bin/fzz' }
+  config = function()
+    vim.o.fzz_bin = '~/.cargo/bin/fzz'
+  end,
 }
 ```
 

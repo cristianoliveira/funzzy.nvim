@@ -15,9 +15,22 @@
     - '**/*.vim'
     - '**/*.lua'
 
+- name: build with nix
+  run: 
+    - nix flake check
+    - nix build .#check --verbose -L
+  change:
+    - '**/*.sh'
+    - '**/*.nix'
+    - '**/*.vim'
+    - '**/*.lua'
+
 - name: git stage changed files
   run: 
     - git add {{relative_filepath}}
   change:
+    - '**/*.sh'
+    - '**/*.nix'
+    - '**/*.md'
     - '**/*.vim'
     - '**/*.lua'
