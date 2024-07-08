@@ -18,7 +18,7 @@
 - name: build with nix
   run: 
     - nix flake check
-    - nix build .#check --verbose -L
+    - nix build .#funzzy_nvim --verbose -L
   change:
     - '**/*.sh'
     - '**/*.nix'

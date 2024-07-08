@@ -8,8 +8,10 @@ echo "test the commands are available"
 ls -la 
 lua -e 'print(package.path)'
 
-# $nvim_bin --headless -c 'source plugin/funzzy.vim' -c 'FzzInit' -c 'qa!'
-# $nvim_bin --headless -c 'source plugin/funzzy.vim' -c 'Fzz' -c 'qa!'
 $nvim_bin \
   --headless -c 'source plugin/funzzy.vim' -c 'Fzz' -c 'qa!' \
+  > test_results.log 2>&1
+
+$nvim_bin \
+  --headless -c 'source plugin/funzzy.vim' -c 'Fze' -c 'qa!' \
   > test_results.log 2>&1

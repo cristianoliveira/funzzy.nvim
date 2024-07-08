@@ -17,15 +17,11 @@
           pkgs = import nixpkgs { inherit system; };
         in
         {
-          devShells."${system}".default = pkgs.mkShell {
-            packages = with pkgs; [
-              lua
-              lua54Packages.busted
-              lua54Packages.luacheck
-            ];
+          devShells."${system}".default = import ./shell.nix {
+            inherit pkgs;
           };
 
-          check = pkgs.stdenv.mkDerivation {
+          funzzy_nvim = pkgs.stdenv.mkDerivation {
             name = "buld plugins for ${system}";
             src = ./.;
             doCheck = true;
