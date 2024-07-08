@@ -7,6 +7,7 @@
 
   outputs = { self, nixpkgs, ... }:
     let
+      cur_dir = builtins.toString ./.;
       lib = nixpkgs.lib;
       recursiveMergeAttrs = listOfAttrsets: lib.fold (attrset: acc: lib.recursiveUpdate attrset acc) {} listOfAttrsets;
 
@@ -49,7 +50,7 @@
               ${pkgs.lua54Packages.luacheck}/bin/luacheck lua
 
               echo "Running tests: for ${system}"
-              $PWD/nvim-test.sh
+              ${cur_dir}/nvim-test.sh
             '';
 
             buildPhase = ''
