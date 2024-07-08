@@ -10,7 +10,7 @@
       lib = nixpkgs.lib;
       recursiveMergeAttrs = listOfAttrsets: lib.fold (attrset: acc: lib.recursiveUpdate attrset acc) {} listOfAttrsets;
 
-      systems = [ "x86_64-linux" "x86_64-darwin" ];
+      systems = [ "x86_64-linux" ];
 
       systemPackages = map (system:
         let
