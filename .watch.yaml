@@ -29,10 +29,20 @@
     - '**/*.vim'
     - '**/*.lua'
 
+- name: generate helptags
+  run: 'make helptags'
+  run_on_init: true
+  change:
+    - '**/*.txt'
+    - '**/*.vim'
+    - '**/*.lua'
+
 - name: git stage changed files
   run: 
     - git add {{relative_filepath}}
   change:
+    - 'doc/tags'
+    - '**/*.txt'
     - '**/*.sh'
     - '**/*.nix'
     - '**/*.md'

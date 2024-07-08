@@ -33,26 +33,26 @@ FEATURES                                                  *funzzy-features*
 =============================================================================
 COMMANDS                                                  *funzzy-commands*
 
-                                                          *:FunzzyEdit*
-:FunzzyEdit                       Opens the `.watch.yaml` file in edit mode. If
-                                  the file does not exist, it will be created.
+                                                                  *:FzzEdit*
+:FzzEdit                       Opens the `.watch.yaml` file in edit mode. If
+                               the file does not exist, it will be created.
 
-:FunzzyInit                       Alias for :FunzzyEdit
-                                                          *:FunzzyClose*
-:FunzzyClose                      Closes all funzzy channels for the current
-                                  working directory. This IS NOT REQUIRED for
-                                  cleaning up running processes before exiting vim
+:FzzInit                       Alias for :FzzEdit
+                                                                  *:FzzClose*
+:FzzClose                      Closes all funzzy channels for the current
+                               working directory. This IS NOT REQUIRED for
+                               cleaning up running processes before exiting vim
 
-                                                          *:Funzzy*
-:Funzzy <target>                  Watches using the `.watch.yaml` file in the
-                                  current directory. you may pass a `target` to
-                                  run a specific task.
-                                  See more about "targeting"
-                                  https://github.com/cristianoliveira/funzzy#running
+                                                                      *:Fzz*
+:Fzz <target>                  Watches using the `.watch.yaml` file in the
+                               current directory. you may pass a `target` to
+                               run a specific task.
+                               See more about "targeting"
+                               https://github.com/cristianoliveira/funzzy#running
 
-                                                          *:FunzzyCmd*
-:FunzzyCmd <shell-command>        Watches the current directory and runs the
-                                  given shell command on each change.
+                                                                  *:FzzCmd*
+:FzzCmd <shell-command>        Watches the current directory and runs the
+                               given shell command on each change.
 
 =============================================================================
 EXAMPLES                                                  *funzzy-examples*
@@ -61,14 +61,14 @@ EXAMPLES                                                  *funzzy-examples*
  command below, this will spin a funzzy process which will watch the directory
  where the file is and will execute the command you passed as argument
 
- `:FunzzyCmd echo "this file has changed {{filepath}}"`
+ `:FzzCmd echo "this file has changed {{filepath}}"`
 
- *Configured_tasks* - First configure the task file with `:FunzzyInit` once that
- is done execute `:Funzzy` which will spin the watcher and watch based on the
+ *Configured_tasks* - First configure the task file with `:FzzInit` once that
+ is done execute `:Fzz` which will spin the watcher and watch based on the
  configured tasks in `.watch.yaml`
 
  *Targeted_tasks* - Assuming that you have the `.watch.yaml` below if you run
- the command `:Funzzy quick` it will only load the rules that contains `quick`
+ the command `:Fzz quick` it will only load the rules that contains `quick`
  in the name
  ```
   - name: run test (quick)
@@ -89,7 +89,7 @@ FAQ                                                       *funzzy-faq*
  - How can I kill a running instance of the watcher?
 
  This plugin spins a process using :terminal so the simplest way is
- pressing `i` and `<C-c>` for more run `:h terminal` or use |:FunzzyClose|
+ pressing `i` and `<C-c>` for more run `:h terminal` or use |:FzzClose|
  otherwise by quiting vim all running instances are going to be cleaned up.
 
  vim:tw=78:et:ft=help:norl:
