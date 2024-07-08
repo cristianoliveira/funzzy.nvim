@@ -1,7 +1,7 @@
-:Funzzy	funzzy.txt	/*:Funzzy*
-:FunzzyClose	funzzy.txt	/*:FunzzyClose*
-:FunzzyCmd	funzzy.txt	/*:FunzzyCmd*
-:FunzzyEdit	funzzy.txt	/*:FunzzyEdit*
+:Fzz	funzzy.txt	/*:Fzz*
+:FzzClose	funzzy.txt	/*:FzzClose*
+:FzzCmd	funzzy.txt	/*:FzzCmd*
+:FzzEdit	funzzy.txt	/*:FzzEdit*
 Arbitrary_commands	funzzy.txt	/*Arbitrary_commands*
 Configured_tasks	funzzy.txt	/*Configured_tasks*
 Targeted_tasks	funzzy.txt	/*Targeted_tasks*
