@@ -8,7 +8,7 @@
     utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        cur_dir = builtins.toString ./.;
+        shell = pkgs.bash;
       in {
 
         devShells.default = pkgs.mkShell {
@@ -32,6 +32,7 @@
                 luarocks
               ]))
               neovim
+
             ];
 
             # NOTE: Configure the test environment
@@ -49,7 +50,7 @@
               ls -la
 
               echo "Running tests: for ${system}"
-              ${cur_dir}/nvim-test.sh
+              ${shell}/bin/bash ./nvim-test.sh
             '';
 
             buildPhase = ''
