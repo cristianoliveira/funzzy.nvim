@@ -46,6 +46,8 @@
               ${pkgs.lua54Packages.busted}/bin/busted lua
               ${pkgs.lua54Packages.luacheck}/bin/luacheck lua
 
+              ls -la
+
               echo "Running tests: for ${system}"
               ${cur_dir}/nvim-test.sh
             '';
