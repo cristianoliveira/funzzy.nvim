@@ -23,9 +23,36 @@ describe("funzzy plugin", function()
 
       fn = {
         filereadable = spy.new(function() return FALSE end),
-        confirm = spy.new(function() return FALSE end)
+        confirm = spy.new(function() return FALSE end),
+        system = spy.new(function() return "1.3.0" end),
       },
     }
+  end)
+
+  describe("Minimal binary - 1.3.0", function()
+    it("works with nightly", function()
+      vim.fn.system = spy.new(function() return "1.3.0-nightly" end)
+
+      funzzy(vim).Funzzy({})
+
+      assert
+          .spy(vim.notify)
+          .was_not_called_with(
+            "Funzzy: version must be at least v1.3.0. Current: 1.0.1"
+          )
+    end)
+
+    it("checks for the presence of `funzzy` cli and shows a message", function()
+      vim.fn.system = spy.new(function() return "1.0.1" end)
+
+      funzzy(vim).Funzzy({})
+
+      assert
+          .spy(vim.notify)
+          .was_called_with(
+            "Funzzy: version must be at least v1.3.0. Current: 1.0.1"
+          )
+    end)
   end)
 
   describe("Commands", function()
@@ -37,7 +64,9 @@ describe("funzzy plugin", function()
 
         assert
             .spy(vim.cmd)
-            .was_called_with("terminal /usr/bin/funzzy --non-block --target tests")
+            .was_called_with(
+              "terminal /usr/bin/funzzy --fail-fast --non-block --target tests"
+            )
       end)
 
       it("spins up the watcher without target by default", function()
@@ -47,7 +76,7 @@ describe("funzzy plugin", function()
 
         assert
             .spy(vim.cmd)
-            .was_called_with("terminal /usr/bin/funzzy --non-block")
+            .was_called_with("terminal /usr/bin/funzzy --fail-fast --non-block")
       end)
     end)
 
@@ -63,7 +92,7 @@ describe("funzzy plugin", function()
             .was_called_with(
               "terminal" ..
               " find -d /current_dir -depth 1 |" ..
-              " /usr/bin/funzzy echo 'test' --non-block"
+              " /usr/bin/funzzy echo 'test' --fail-fast --non-block"
             )
       end)
     end)

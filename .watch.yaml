@@ -5,12 +5,14 @@
 
 - name: run my test
   run: 'make test'
+  run_on_init: true
   change:
     - '**/*.vim'
     - '**/*.lua'
 
 - name: run my linter
   run: 'make lint'
+  run_on_init: true
   change:
     - '**/*.vim'
     - '**/*.lua'

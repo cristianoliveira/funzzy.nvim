@@ -40,6 +40,8 @@ return function(vim)
   -- Funzzy configuration variables
   ---@type string (default: path to funzzy binary)
   local funzzy_bin         = vim.g.funzzy_bin or vim.g.fzz_bin or vim.fn.exepath("funzzy")
+  ---@type string
+  local fzz_version        = vim.fn.system(funzzy_bin .. " -v") -- like 0.1.0-nightly
 
   local has_funzzy_deps    = function()
     if vim.fn.filereadable(funzzy_bin) == 0 then
@@ -54,6 +56,18 @@ return function(vim)
   local has_correct_setup  = function()
     if not vim.g.funzzy_has_deps() then
       vim.notify("Funzzy: funzzy cli not found run `cargo install funzzy`")
+      return false
+    end
+
+    -- Check version and ensure is 1.3.0 or higher
+    if fzz_version == "" then
+      vim.notify("Funzzy: funzzy cli not found run `cargo install funzzy`")
+      return false
+    end
+
+    local major, minor, _ = fzz_version:match("(%d+)%.(%d+)%.(%d+)")
+    if tonumber(major) < 1 or tonumber(minor) < 3 then
+      vim.notify("Funzzy: version must be at least v1.3.0. Current: " .. fzz_version)
       return false
     end
 
@@ -98,11 +112,20 @@ return function(vim)
 
       if opts.target ~= "" then
         return open_funzzy_terminal(
-          cmd_builder(funzzy_bin, "--non-block", "--target", opts.target)
+          cmd_builder(
+            funzzy_bin,
+            "--fail-fast",
+            "--non-block",
+            "--target",
+            opts.target
+          )
         )
       end
 
-      open_funzzy_terminal(cmd_builder(funzzy_bin, "--non-block"))
+      open_funzzy_terminal(cmd_builder(funzzy_bin,
+        "--fail-fast",
+        "--non-block"
+      ))
     end,
 
     FunzzyCmd = function(opts)
@@ -117,6 +140,7 @@ return function(vim)
       local run_arbitrary_cmd = cmd_builder(
         funzzy_bin,
         opts.command,
+        "--fail-fast",
         "--non-block"
       )
 
