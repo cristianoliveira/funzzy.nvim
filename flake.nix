@@ -1,27 +1,24 @@
 {
   description = "Funzzy.nvim development environment";
-
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs";
+    utils.url = "github:numtide/flake-utils";
   };
+  outputs = { self, nixpkgs, utils }: 
+    utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        cur_dir = builtins.toString ./.;
+      in {
 
-  outputs = { self, nixpkgs, ... }:
-    let
-      cur_dir = builtins.toString ./.;
-      lib = nixpkgs.lib;
-      recursiveMergeAttrs = listOfAttrsets: lib.fold (attrset: acc: lib.recursiveUpdate attrset acc) {} listOfAttrsets;
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            hello
+          ];
+        };
 
-      systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-
-      systemPackages = map (system:
-        let
-          pkgs = import nixpkgs { inherit system; };
-        in
-        {
-          devShells."${system}".default = import ./shell.nix {
-            inherit pkgs;
-          };
-
+        packages = {
+          default = pkgs.hello;
           funzzy_nvim = pkgs.stdenv.mkDerivation {
             name = "fzz vim for ${system}";
             src = ./.;
@@ -58,9 +55,6 @@
               
             '';
           };
-        }
-      ) systems;
-    in
-      # Reduce the list of packages of packages into a single attribute set
-      recursiveMergeAttrs(systemPackages);
+        };
+    });
 }
