@@ -39,7 +39,7 @@ return function(vim)
   --
   -- Funzzy configuration variables
   ---@type string (default: path to funzzy binary)
-  local funzzy_bin         = vim.g.funzzy_bin or vim.fn.exepath("funzzy")
+  local funzzy_bin         = vim.g.funzzy_bin or vim.g.fzz_bin or vim.fn.exepath("funzzy")
 
   local has_funzzy_deps    = function()
     if vim.fn.filereadable(funzzy_bin) == 0 then

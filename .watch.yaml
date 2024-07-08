@@ -5,14 +5,19 @@
 
 - name: run my test
   run: 'make test'
-  change: [
-    '**/*.vim',
-    '**/*.lua',
-  ]
+  change:
+    - '**/*.vim'
+    - '**/*.lua'
 
 - name: run my linter
   run: 'make lint'
-  change: [
-    '**/*.vim',
-    '**/*.lua',
-  ]
+  change:
+    - '**/*.vim'
+    - '**/*.lua'
+
+- name: git stage changed files
+  run: 
+    - git add {{relative_filepath}}
+  change:
+    - '**/*.vim'
+    - '**/*.lua'
